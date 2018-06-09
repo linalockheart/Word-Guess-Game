@@ -6,29 +6,75 @@ var wordBank = ["pikachu", "eevee", "bulbasaur", "charmander", "squirtle", "meow
 "clefairy", "clefable", "jigglypuff", "wigglytuff", "ghastly", "haunter", "gengar", "oddish", "gloom", "vileplume",
 "venonat", "horsea", "dratini"];
 
-var pokemon = wordBank[Math.floor(Math.random() * wordBank.length)];
+var selectedPokemon = "";
+var lettersInWord = [];
+var blankSpaces = 0;
+var spacesAndCorrectLetters = [];
+var wrongLetters = [];
 
-var blankSpaces = [];
+var winCount = 0;
+var loseCount = 0;
+var guessesLeft = 9;
 
-var remainingLetters = pokemon.length;
+//////////////
 
-document.onkeyup = function(event) {
-    var userGuess = event.key;
-    userGuess.textContent = event.key;
-    // .toLowerCase
+function startGame () {
+    var selectedPokemon = wordBank[Math.floor(Math.random() * wordBank.length)];
+        console.log(selectedPokemon);
+    lettersInWord = selectedPokemon.split("");
+        console.log(lettersInWord);
+    blankSpaces = lettersInWord.length;
+        console.log(blankSpaces);
+
+
+var guessesLeft = 9;
+var wrongLetters = [];
+var spacesAndCorrectLetters = [];
+
+for (var i = 0; i<blankSpaces; i++) {
+    spacesAndCorrectLetters.push("_");
+console.log(spacesAndCorrectLetters);
 }
 
-for (var i = 0; i<pokemon.length; i++) {
-    blankSpaces[i] = "_";
-    blackSpaces.push("_")
-    document.querySelector("#answer").innerHTML = userGuess
-}
 
 
-while (remainingLetters > 0) {
-    var userGuess = document.getElementById("mystery-word");
-    secretWord.innerHtml = blankSpaces.join(" ");
 }
+
+//////////////
+startGame()
+
+
+
+
+///////////
+
+
+
+
+
+// l = answerArray.join(" ");
+// document.getElementById("answer").text = l;
+
+// var remainingLetters = pokemon.length;
+// console.log(remainingLetters);
+
+// document.onkeyup = function(event) {
+//     var userGuess = event.key;
+//     userGuess.textContent = event.key;
+//     // .toLowerCase
+// }
+
+
+    // blackSpaces.push("_");
+    // document.querySelector("mystery-word").innerHTML = userGuess;
+    
+
+
+
+// while (remainingLetters > 0) {
+//     var userGuess = document.getElementById("mystery-word");
+//     l = secretWord.innerHtml = blankSpaces.join(" ");
+// }
 //one or the other here, not both?
 
 
@@ -36,13 +82,13 @@ while (remainingLetters > 0) {
 
 
 
-var userText = document.getElementById("userGuess");
+// var userText = document.getElementById("userGuess");
 
 // Next, we give JavaScript a function to execute when onkeyup event fires.
-document.onkeyup = function(event) {
-  userText.textContent = event.key;
-};
+// document.onkeyup = function(event) {
+//   userText.textContent = event.key;
+// };
 
 /////////
 
-document.querySelector("#game").innerHTML = html;
+// document.querySelector("#game").innerHTML = html;
