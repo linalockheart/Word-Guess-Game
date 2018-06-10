@@ -1,158 +1,95 @@
-// Hangman Pokemon edition (first 150, well some of them anyway)
+//Hangman Pokemon edition (first 150, well some of them anyway)
 
 //Global Variables
 
-var wordBank = ["pikachu", "eevee", "bulbasaur", "charmander", "squirtle", "meowth", "ekans", "koffing", 
-"dewgong", "mewtwo", "articuno", "polywag", "vaporeon", "jolteon", "flareon", "zapdos", "moltres", "raichu",
-"ivysaur", "venusaur", "charmeleon", "charizard", "wartortle", "blastoise", "vulpix", "ninetales", "butterfree",
-"clefairy", "clefable", "jigglypuff", "wigglytuff", "ghastly", "haunter", "gengar", "oddish", "gloom", "vileplume",
-"venonat", "horsea", "dratini"];
+var wordsList = ["pikachu", "eevee", "bulbasaur", "charmander", "squirtle", "meowth",
+"vaporeon", "jolteon", "flareon", "charizard", "blastoise", "vulpix", "butterfree"];
 
-var selectedPokemon = "";
+var chosenPokemon = "";
 var lettersInWord = [];
-var blankSpaces = 0;
-var spacesAndCorrectLetters = [];
-var wrongLetters = [];
+var numBlanks = 0;
+var blanksAndSuccesses = [];
+var wrongGuesses = [];
+var letterGuessed = "";
 
 var winCount = 0;
 var lossCount = 0;
-var guessesLeft = 10;
+var numGuesses = 10;
 
-// Functions 
+//Functions
 
 function startGame() {
-    var selectedPokemon = wordBank[Math.floor(Math.random() * wordBank.length)];
-    lettersInWord = selectedPokemon.split("");
-    blankSpaces = lettersInWord.length;
 
-var guessesLeft = 10;
-var wrongLetters = [];
-var spacesAndCorrectLetters = [];
+  numGuesses = 10;
+  chosenPokemon = wordsList[Math.floor(Math.random() * wordsList.length)];
+  lettersInWord = chosenPokemon.split("");
+  numBlanks = lettersInWord.length;
+  blanksAndSuccesses = [];
+  wrongGuesses = [];
 
-for (var i=0; i<blankSpaces; i++) {
-    spacesAndCorrectLetters.push("_");
-}
+  for (var i = 0; i < numBlanks; i++) {
+    blanksAndSuccesses.push("_");
+  }
 
-window.addEventListener('DOMContentLoaded', function(){
-    document.getElementById("dashes").innerHTML = spacesAndCorrectLetters.join(" ");
-    document.getElementById("guessesLeft").innerHTML = guessesLeft;
-    document.getElementById("winCount").innerHTML = winCount;
-    document.getElementById("lossCount").innerHTML = lossCount;
-    });
-
-console.log(selectedPokemon);
-console.log(lettersInWord);
-console.log(blankSpaces);
-console.log(spacesAndCorrectLetters);
-
+  document.getElementById("guessesLeft").innerHTML = numGuesses;
+  document.getElementById("dashes").innerHTML = blanksAndSuccesses.join(" ");
+  document.getElementById("lettersGuessed").innerHTML = wrongGuesses.join(" ");
 }
 
 function letterChecker(letter) {
-    var isLetterInWord = false;
-    // alert(letter);
 
+  var letterInWord = false;
 
-    for (var i=0; i<blankSpaces; i++) {
-        if (lettersInWord[i] === letter) {
-            isLetterInWord = true;
-            // alert("letter found");
-        }
+  for (var i = 0; i < numBlanks; i++) {
+    if (chosenPokemon[i] === letter) {
+      letterInWord = true;
     }
+  }
 
-    if (isLetterInWord) {
-        for (i=0; i<blankSpaces; i++) {
-            if (lettersInWord[i] === letter) {
-                spacesAndCorrectLetters[i] = letter;
-            }
-
-        }
+  if (letterInWord) {
+    for (var j = 0; j < numBlanks; j++) {
+      if (chosenPokemon[j] === letter) {
+        blanksAndSuccesses[j] = letter;
+      }
     }
+  }
 
-    else {
-        wrongLetters.push(letter);
-        guessesLeft--;
-    }
-
-    console.log(spacesAndCorrectLetters);
-    // console.log(lettersInWord);
-    // console.log(selectedPokemon);
+  else {
+    wrongGuesses.push(letter);
+    numGuesses--;
+  }
 
 }
 
 function roundOver() {
 
-    document.getElementById("guessesLeft").innerHTML = guessesLeft;
-    document.getElementById("dashes").innerHTML = spacesAndCorrectLetters.join(" ");
+  document.getElementById("guessesLeft").innerHTML = numGuesses;
+  document.getElementById("dashes").innerHTML = blanksAndSuccesses.join(" ");
+  document.getElementById("lettersGuessed").innerHTML = wrongGuesses.join(" ");
 
-    console.log("Win Count: " + winCount + "Loss Count: " + lossCount + "Guesses Left: " + guessesLeft);
 
-    if (lettersInWord.toString() === spacesAndCorrectLetters.toString()) {
-        winCount++;
-        alert("You won!");
-        document.getElementById("winCount").innerHTML = winCount;
-        startGame();
-    }
+  if (lettersInWord.toString() === blanksAndSuccesses.toString()) {
+    winCount++;
+    alert("You win!");
+    document.getElementById("winCount").innerHTML = winCount;
+    startGame();
+  }
 
-    else if (guessesLeft <= 0) {
-        lossCount++;
-        alert("You lose!");
-        document.getElementById("lossCount").innerHTML = lossCount;
-        startGame();
-    }
+  else if (numGuesses === 0) {
+    lossCount++;
+    alert("You lose");
+    document.getElementById("lossCount").innerHTML = lossCount;
+    startGame();
+  }
+
 }
 
-//////////////
+//Call functions
+
 startGame();
 
 document.onkeyup = function(event) {
-    var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
-    letterChecker(userGuess);
-    roundOver();
-
-
-
-console.log(userGuess);
-
-
-}
-
-
-
-
-///////////
-
-
-
-
-
-// var remainingLetters = pokemon.length;
-// console.log(remainingLetters);
-
-
-
-
-    // document.querySelector("mystery-word").innerHTML = userGuess;
-    
-
-
-
-// while (remainingLetters > 0) {
-//     var userGuess = document.getElementById("mystery-word");
-//     l = secretWord.innerHtml = blankSpaces.join(" ");
-// }
-//one or the other here, not both?
-
-
-//CHECK THIS
-
-
-
-// var userText = document.getElementById("userGuess");
-
-// Next, we give JavaScript a function to execute when onkeyup event fires.
-// document.onkeyup = function(event) {
-//   userText.textContent = event.key;
-// };
-
-/////////
-
+  userGuess = String.fromCharCode(event.which).toLowerCase();
+  letterChecker(userGuess);
+  roundOver();
+};
