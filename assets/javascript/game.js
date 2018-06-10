@@ -1,5 +1,7 @@
 // Hangman Pokemon edition (first 150, well some of them anyway)
 
+//Global Variables
+
 var wordBank = ["pikachu", "eevee", "bulbasaur", "charmander", "squirtle", "meowth", "ekans", "koffing", 
 "dewgong", "mewtwo", "articuno", "polywag", "vaporeon", "jolteon", "flareon", "zapdos", "moltres", "raichu",
 "ivysaur", "venusaur", "charmeleon", "charizard", "wartortle", "blastoise", "vulpix", "ninetales", "butterfree",
@@ -13,35 +15,106 @@ var spacesAndCorrectLetters = [];
 var wrongLetters = [];
 
 var winCount = 0;
-var loseCount = 0;
-var guessesLeft = 9;
+var lossCount = 0;
+var guessesLeft = 10;
 
-//////////////
+// Functions 
 
-function startGame () {
+function startGame() {
     var selectedPokemon = wordBank[Math.floor(Math.random() * wordBank.length)];
-        console.log(selectedPokemon);
     lettersInWord = selectedPokemon.split("");
-        console.log(lettersInWord);
     blankSpaces = lettersInWord.length;
-        console.log(blankSpaces);
 
-
-var guessesLeft = 9;
+var guessesLeft = 10;
 var wrongLetters = [];
 var spacesAndCorrectLetters = [];
 
-for (var i = 0; i<blankSpaces; i++) {
+for (var i=0; i<blankSpaces; i++) {
     spacesAndCorrectLetters.push("_");
-console.log(spacesAndCorrectLetters);
 }
 
+window.addEventListener('DOMContentLoaded', function(){
+    document.getElementById("dashes").innerHTML = spacesAndCorrectLetters.join(" ");
+    document.getElementById("guessesLeft").innerHTML = guessesLeft;
+    document.getElementById("winCount").innerHTML = winCount;
+    document.getElementById("lossCount").innerHTML = lossCount;
+    });
+
+console.log(selectedPokemon);
+console.log(lettersInWord);
+console.log(blankSpaces);
+console.log(spacesAndCorrectLetters);
+
+}
+
+function letterChecker(letter) {
+    var isLetterInWord = false;
+    // alert(letter);
 
 
+    for (var i=0; i<blankSpaces; i++) {
+        if (lettersInWord[i] === letter) {
+            isLetterInWord = true;
+            // alert("letter found");
+        }
+    }
+
+    if (isLetterInWord) {
+        for (i=0; i<blankSpaces; i++) {
+            if (lettersInWord[i] === letter) {
+                spacesAndCorrectLetters[i] = letter;
+            }
+
+        }
+    }
+
+    else {
+        wrongLetters.push(letter);
+        guessesLeft--;
+    }
+
+    console.log(spacesAndCorrectLetters);
+    // console.log(lettersInWord);
+    // console.log(selectedPokemon);
+
+}
+
+function roundOver() {
+
+    document.getElementById("guessesLeft").innerHTML = guessesLeft;
+    document.getElementById("dashes").innerHTML = spacesAndCorrectLetters.join(" ");
+
+    console.log("Win Count: " + winCount + "Loss Count: " + lossCount + "Guesses Left: " + guessesLeft);
+
+    if (lettersInWord.toString() === spacesAndCorrectLetters.toString()) {
+        winCount++;
+        alert("You won!");
+        document.getElementById("winCount").innerHTML = winCount;
+        startGame();
+    }
+
+    else if (guessesLeft <= 0) {
+        lossCount++;
+        alert("You lose!");
+        document.getElementById("lossCount").innerHTML = lossCount;
+        startGame();
+    }
 }
 
 //////////////
-startGame()
+startGame();
+
+document.onkeyup = function(event) {
+    var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+    letterChecker(userGuess);
+    roundOver();
+
+
+
+console.log(userGuess);
+
+
+}
 
 
 
@@ -52,20 +125,12 @@ startGame()
 
 
 
-// l = answerArray.join(" ");
-// document.getElementById("answer").text = l;
-
 // var remainingLetters = pokemon.length;
 // console.log(remainingLetters);
 
-// document.onkeyup = function(event) {
-//     var userGuess = event.key;
-//     userGuess.textContent = event.key;
-//     // .toLowerCase
-// }
 
 
-    // blackSpaces.push("_");
+
     // document.querySelector("mystery-word").innerHTML = userGuess;
     
 
@@ -91,4 +156,3 @@ startGame()
 
 /////////
 
-// document.querySelector("#game").innerHTML = html;
